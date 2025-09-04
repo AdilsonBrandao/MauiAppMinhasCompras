@@ -44,7 +44,7 @@ namespace MauiAppMinhasCompras.Views
 
             if (produto != null)
             {
-                bool confirmar = await DisplayAlert("Confirmar", $"Deseja remover {produto.Descricao}?", "Sim", "Não");
+                bool confirmar = await DisplayAlert("Tem Certeza", $"Deseja remover {produto.Descricao}?", "Sim", "Não");
 
                 if (confirmar)
                 {
@@ -54,9 +54,24 @@ namespace MauiAppMinhasCompras.Views
                     }
                     catch (Exception ex)
                     {
-                        await DisplayAlert("Erro", $"Falha ao remover: {ex.Message}", "OK");
+                        await DisplayAlert("Ops", $"Falha ao remover: {ex.Message}", "OK");
                     }
                 }
+            }
+        }
+
+        private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            try
+            {
+                Produto produto = e.SelectedItem as Produto;
+
+                Navigation.PushAsync(new Views.EditarProduto
+                { BindingContext = produto, });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Ops", ex.Message, "OK");
             }
         }
     }
